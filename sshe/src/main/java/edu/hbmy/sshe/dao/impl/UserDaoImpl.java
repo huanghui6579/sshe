@@ -1,36 +1,23 @@
 package edu.hbmy.sshe.dao.impl;
 
-import java.io.Serializable;
-
-import javax.annotation.Resource;
-
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
 import edu.hbmy.sshe.dao.UserDao;
 import edu.hbmy.sshe.model.User;
 
 @Repository("userDao")
-public class UserDaoImpl implements UserDao {
-	private SessionFactory sessionFactory;
-	
-	public SessionFactory getSessionFactory() {
-		return sessionFactory;
-	}
-
-	@Resource
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
-	
-	public Session getSession() {
-		return sessionFactory.getCurrentSession();
-	}
+public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 
 	@Override
-	public Serializable save(User user) {
-		return getSession().save(user);
+	public boolean isUsernameExists(User user) {
+		Long count = (Long) getSession().createQuery("select count(id) from User where username = ?")
+					.setParameter(0, user.getUsername())
+					.uniqueResult();
+		if(count != null && count > 0) {	//用户名已经存在
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }
