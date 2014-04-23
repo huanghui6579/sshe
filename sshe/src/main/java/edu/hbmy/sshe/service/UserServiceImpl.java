@@ -1,6 +1,8 @@
 package edu.hbmy.sshe.service;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -37,6 +39,16 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean isUsernameExists(User user) {
 		return userDao.isUsernameExists(user);
+	}
+
+	@Override
+	public User login(User user) {
+		String hql = "from User where username = :username and password = :password";
+		//Object[] params = {user.getUsername(), user.getPassword()};
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("username", user.getUsername());
+		params.put("password", user.getPassword());
+		return userDao.load(hql, params);
 	}
 
 }

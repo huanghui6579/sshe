@@ -8,4 +8,6 @@ public interface UserService {
 	public Serializable save(User user);
 	
 	public boolean isUsernameExists(User user);
+	
+	public User login(User user);
 }
