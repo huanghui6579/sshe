@@ -213,19 +213,14 @@
 		      	</plugin>
 		      
 				<plugin>
-					<groupId>org.mortbay.jetty</groupId>
-					<artifactId>jetty-maven-plugin</artifactId>
+					<groupId>org.eclipse.jetty</groupId>
+  					<artifactId>jetty-maven-plugin</artifactId>
 					<configuration>
 						<scanIntervalSeconds>10</scanIntervalSeconds>
 						<webApp>
 							<contextPath>/sshe</contextPath>
 						</webApp>
-						<connectors>
-							<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-								<port>9090</port>
-								<maxIdleTime>60000</maxIdleTime>
-							</connector>
-						</connectors>
+						<jettyXml>jetty-http.xml</jettyXml>
 					</configuration>
 				</plugin>
 				
