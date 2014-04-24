@@ -91,4 +91,86 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 		return null;
 	}
 
+	@Override
+	public void saveOrUpdate(T t) {
+		getSession().saveOrUpdate(t);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<T> find(String hql) {
+		Query query = getSession().createQuery(hql);
+		return query.list();
+	}
+
+	@Override
+	public List<T> find(String hql, Map<String, ?> params) {
+		Query query = getSession().createQuery(hql);
+		if(MapUtils.isNotEmpty(params)) {
+			Set<String> keys = params.keySet();
+			for(String key : keys) {
+				query.setParameter(key, params.get(key));
+			}
+		}
+		@SuppressWarnings("unchecked")
+		List<T> list = query.list();
+		if(CollectionUtils.isNotEmpty(list)) {
+			return list;
+		}
+		return null;
+	}
+
+	@Override
+	public List<T> find(String hql, Map<String, ?> params, int pageIndex,
+			int pageSize) {
+		Query query = getSession().createQuery(hql);
+		if(MapUtils.isNotEmpty(params)) {
+			Set<String> keys = params.keySet();
+			for(String key : keys) {
+				query.setParameter(key, params.get(key));
+			}
+		}
+		int firstResult = (pageIndex - 1) * pageSize;
+		query.setFirstResult(firstResult)
+			.setMaxResults(pageSize);
+		@SuppressWarnings("unchecked")
+		List<T> list = query.list();
+		if(CollectionUtils.isNotEmpty(list)) {
+			return list;
+		}
+		return null;
+	}
+
+	@Override
+	public List<T> find(String hql, int pageIndex, int pageSize) {
+		Query query = getSession().createQuery(hql);
+		int firstResult = (pageIndex - 1) * pageSize;
+		query.setFirstResult(firstResult)
+			.setMaxResults(pageSize);
+		@SuppressWarnings("unchecked")
+		List<T> list = query.list();
+		if(CollectionUtils.isNotEmpty(list)) {
+			return list;
+		}
+		return null;
+	}
+
+	@Override
+	public Long getCount(String hql) {
+		Query query = getSession().createQuery(hql);
+		return (Long) query.uniqueResult();
+	}
+
+	@Override
+	public Long getCount(String hql, Map<String, ?> params) {
+		Query query = getSession().createQuery(hql);
+		if(MapUtils.isNotEmpty(params)) {
+			Set<String> keys = params.keySet();
+			for(String key : keys) {
+				query.setParameter(key, params.get(key));
+			}
+		}
+		return (Long) query.uniqueResult();
+	}
+
 }

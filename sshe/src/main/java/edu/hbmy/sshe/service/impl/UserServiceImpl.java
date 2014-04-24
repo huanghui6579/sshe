@@ -1,4 +1,4 @@
-package edu.hbmy.sshe.service;
+package edu.hbmy.sshe.service.impl;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.hbmy.sshe.dao.UserDao;
 import edu.hbmy.sshe.model.User;
+import edu.hbmy.sshe.service.UserService;
 
 @Service("userService")
 @Transactional(readOnly = true)
