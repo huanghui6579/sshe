@@ -29,7 +29,7 @@
 </script>
 
 <!-- 注册窗口,默认隐藏 -->
-<div id="user_reg_dialog" style="width: 250px;" class="easyui-dialog"
+<div id="user_reg_dialog" style="width: 350px;" class="easyui-dialog"
 	data-options="title:'用户注册',
 		closable:false, 
 		modal:true, 

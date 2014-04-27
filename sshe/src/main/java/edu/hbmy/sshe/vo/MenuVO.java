@@ -1,12 +1,16 @@
 package edu.hbmy.sshe.vo;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MenuVO {
 	private String id;
 	private String pid;
 	private String text;
 	private String ptext;
 	private String iconCls;
-	private String url;
+	private String state;
+	private Map<String, Object> attributes = new HashMap<String, Object>(0);
 
 	public String getId() {
 		return id;
@@ -48,11 +52,19 @@ public class MenuVO {
 		this.iconCls = iconCls;
 	}
 
-	public String getUrl() {
-		return url;
+	public String getState() {
+		return state;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public Map<String, Object> getAttributes() {
+		return attributes;
+	}
+
+	public void setAttributes(Map<String, Object> attributes) {
+		this.attributes = attributes;
 	}
 }
