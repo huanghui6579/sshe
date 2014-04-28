@@ -1,0 +1,18 @@
+@CHARSET "UTF-8";
+.dialog-button {
+	text-align: center;
+}
+
+.dialog-button .l-btn {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+table {
+	margin: auto;
+}
+
+table tr th {
+	text-align: right;
+	float: right;
+}
