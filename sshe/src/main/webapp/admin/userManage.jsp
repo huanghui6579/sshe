@@ -3,18 +3,14 @@
 <script type="text/javascript">
 	$(function() {
 		$('#admin_usermanage_datagrid').datagrid({
-			url : '',
-			columns : [ [ {
-				field : 'id',
-				title : '编号',
-				width : 150,
-				align: 'center'
-			}, {
+			url : '${pageContext.request.contextPath}/userAction!datagrid.action',
+			frozenColumns: [[{
 				field : 'username',
 				title : '登陆名',
 				width : 150,
 				align: 'center'
-			}, {
+			}]],
+			columns : [ [{
 				field : 'createDate',
 				title : '创建时间',
 				width : 150,
@@ -26,7 +22,9 @@
 				align: 'center'
 			} ] ],
 			fit: true,
-			border: false
+			border: false,
+			pagination:true,
+			idField: 'id'
 		});
 	});
 </script>

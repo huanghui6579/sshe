@@ -1,7 +1,6 @@
 package edu.hbmy.sshe.action;
 
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.UUID;
 
@@ -18,21 +17,23 @@ import edu.hbmy.sshe.model.DataObject;
 import edu.hbmy.sshe.model.User;
 import edu.hbmy.sshe.service.UserService;
 import edu.hbmy.sshe.util.Encrypt;
+import edu.hbmy.sshe.vo.DataGrid;
+import edu.hbmy.sshe.vo.UserVO;
 
 @Action(value = "userAction")
-public class UserAction extends BaseAction implements ModelDriven<User> {
+public class UserAction extends BaseAction implements ModelDriven<UserVO> {
 
 	private static final Logger LOGGER = Logger.getLogger(UserAction.class);
 	
-	private User user;
+	private UserVO user;
 	
 	private UserService userService;
 	
-	public User getUser() {
+	public UserVO getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(UserVO user) {
 		this.user = user;
 	}
 
@@ -48,11 +49,17 @@ public class UserAction extends BaseAction implements ModelDriven<User> {
 	public void regist() {
 		DataObject dataObject = new DataObject();
 		if(user != null) {
+			User u = new User();
+			try {
+				BeanUtils.copyProperties(u, user);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 			if(StringUtils.isBlank(user.getUsername())) {
 				dataObject.setMsg("用户名不能为空！");
 				writeJson(dataObject);
 				return;
-			} else if(userService.isUsernameExists(user)) {	//用户名已经存在
+			} else if(userService.isUsernameExists(u)) {	//用户名已经存在
 				dataObject.setMsg("用户名已经存在！");
 				writeJson(dataObject);
 				return;
@@ -66,7 +73,12 @@ public class UserAction extends BaseAction implements ModelDriven<User> {
 			user.setModifyDate(user.getCreateDate());
 			user.setPassword(Encrypt.e(user.getPassword()));
 			try {
-				Serializable res = userService.save(user);
+				BeanUtils.copyProperties(u, user);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+			try {
+				Serializable res = userService.save(u);
 				if(res != null) {
 					dataObject.setSuccess(true);
 					dataObject.setMsg("注册成功！");
@@ -100,7 +112,6 @@ public class UserAction extends BaseAction implements ModelDriven<User> {
 					BeanUtils.copyProperties(user, tu);
 				} catch (Exception e) {
 					e.printStackTrace();
-					user = tu;
 				}
 				dataObject.setSuccess(true);
 				dataObject.setMsg("登录成功！");
@@ -110,11 +121,16 @@ public class UserAction extends BaseAction implements ModelDriven<User> {
 			writeJson(dataObject);
 		}
 	}
+	
+	public void datagrid() {
+		DataGrid<User> dataGrid = userService.datagrid(user);
+		writeJson(dataGrid);
+	}
 
 	@Override
-	public User getModel() {
+	public UserVO getModel() {
 		if(user == null) {
-			user = new User();
+			user = new UserVO();
 		}
 		return user;
 	}

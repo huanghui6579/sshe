@@ -8,7 +8,8 @@
 			<ul id="layou_west_tree" class="easyui-tree" 
 			data-options="
 			url:'${pageContext.request.contextPath }/menuAction!treeAll.action',
-			parentField:'pid', lines:true, 
+			parentField:'pid', 
+			lines:true, 
 			onLoadSuccess: function(node, data) {
 				$(this).tree('collapseAll');
 			},
