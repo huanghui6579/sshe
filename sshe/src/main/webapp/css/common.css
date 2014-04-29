@@ -8,11 +8,11 @@
 	margin-right: 10px;
 }
 
-table {
+.submit_tab {
 	margin: auto;
 }
 
-table tr th {
+.submit_tab tr th {
 	text-align: right;
 	float: right;
 }

@@ -50,7 +50,7 @@ $(function() {
 			}
 		}]">
 	<form id="user_login_form" method="post">
-		<table>
+		<table class="submit_tab">
 			<tr>
 				<th>账号：</th>
 				<td><input type="text" name="username"
