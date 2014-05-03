@@ -11,6 +11,8 @@ public class UserVO {
 	
 	private int page;
 	private int rows;
+	private String sort;
+	private String order;
 
 	public String getId() {
 		return id;
@@ -66,5 +68,21 @@ public class UserVO {
 
 	public void setRows(int rows) {
 		this.rows = rows;
+	}
+
+	public String getSort() {
+		return sort;
+	}
+
+	public void setSort(String sort) {
+		this.sort = sort;
+	}
+
+	public String getOrder() {
+		return order;
+	}
+
+	public void setOrder(String order) {
+		this.order = order;
 	}
 }

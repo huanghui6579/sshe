@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -58,13 +59,37 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public DataGrid<User> datagrid(UserVO user) {
 		DataGrid<User> dg = new DataGrid<User>();
-		String hql = "from User";
+		String hql = "from User u";
+		Map<String, Object> params = new HashMap<String, Object>();
+		hql = initWhere(user, hql, params);
 		String countHql = "select count(*) " + hql;
-		List<User> list = userDao.find(hql, user.getPage(), user.getRows());
-		Long total = userDao.getCount(countHql);
+		hql = initOrder(user, hql);
+		List<User> list = userDao.find(hql, params, user.getPage(), user.getRows());
+		Long total = userDao.getCount(countHql, params);
 		dg.setTotal(total);
 		dg.setRows(list);
 		return dg;
 	}
 
+	private String initOrder(UserVO user, String hql) {
+		String sort = user.getSort();
+		String order = user.getOrder();
+		if(user.getSort() != null) {
+			if(order == null) {
+				order = "asc";
+			}
+			hql += " order by " + sort + " " + order;
+		}
+		return hql;
+	}
+
+	private String initWhere(UserVO user, String hql, Map<String, Object> params) {
+		String username = user.getUsername();
+		if(StringUtils.isNotBlank(username)) {
+			hql += " where u.username like :username";
+			params.put("username", "%" + username.trim() + "%");
+		}
+		return hql;
+	}
+	
 }
