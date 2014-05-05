@@ -4,12 +4,13 @@ import org.springframework.stereotype.Repository;
 
 import edu.hbmy.sshe.dao.UserDao;
 import edu.hbmy.sshe.model.User;
+import edu.hbmy.sshe.vo.UserVO;
 
 @Repository("userDao")
 public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 
 	@Override
-	public boolean isUsernameExists(User user) {
+	public boolean isUsernameExists(UserVO user) {
 		Long count = (Long) getSession().createQuery("select count(id) from User where username = ?")
 					.setParameter(0, user.getUsername())
 					.uniqueResult();

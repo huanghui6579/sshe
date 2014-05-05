@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean isUsernameExists(User user) {
+	public boolean isUsernameExists(UserVO user) {
 		return userDao.isUsernameExists(user);
 	}
 

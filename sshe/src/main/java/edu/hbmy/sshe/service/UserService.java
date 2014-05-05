@@ -9,7 +9,7 @@ import edu.hbmy.sshe.vo.UserVO;
 public interface UserService {
 	public Serializable save(User user);
 	
-	public boolean isUsernameExists(User user);
+	public boolean isUsernameExists(UserVO user);
 	
 	public User login(UserVO user);
 

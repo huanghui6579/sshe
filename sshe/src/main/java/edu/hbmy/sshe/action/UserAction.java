@@ -49,17 +49,11 @@ public class UserAction extends BaseAction implements ModelDriven<UserVO> {
 	public void regist() {
 		DataObject dataObject = new DataObject();
 		if(user != null) {
-			User u = new User();
-			try {
-				BeanUtils.copyProperties(u, user);
-			} catch (Exception e1) {
-				e1.printStackTrace();
-			}
 			if(StringUtils.isBlank(user.getUsername())) {
 				dataObject.setMsg("用户名不能为空！");
 				writeJson(dataObject);
 				return;
-			} else if(userService.isUsernameExists(u)) {	//用户名已经存在
+			} else if(userService.isUsernameExists(user)) {	//用户名已经存在
 				dataObject.setMsg("用户名已经存在！");
 				writeJson(dataObject);
 				return;
@@ -72,6 +66,7 @@ public class UserAction extends BaseAction implements ModelDriven<UserVO> {
 			user.setCreateDate(new Date());
 			user.setModifyDate(user.getCreateDate());
 			user.setPassword(Encrypt.e(user.getPassword()));
+			User u = new User();
 			try {
 				BeanUtils.copyProperties(u, user);
 			} catch (Exception e1) {
@@ -88,6 +83,49 @@ public class UserAction extends BaseAction implements ModelDriven<UserVO> {
 			} catch (Exception e) {
 				e.printStackTrace();
 				dataObject.setMsg("注册失败！");
+			}
+			writeJson(dataObject);
+		}
+	}
+	
+	public void add() {
+		DataObject dataObject = new DataObject();
+		if(user != null) {
+			if(StringUtils.isBlank(user.getUsername())) {
+				dataObject.setMsg("用户名不能为空！");
+				writeJson(dataObject);
+				return;
+			} else if(userService.isUsernameExists(user)) {	//用户名已经存在
+				dataObject.setMsg("用户名已经存在！");
+				writeJson(dataObject);
+				return;
+			} else if(StringUtils.isBlank(user.getPassword())) {
+				dataObject.setMsg("密码不能为空！");
+				writeJson(dataObject);
+				return;
+			}
+			user.setId(UUID.randomUUID().toString());
+			user.setCreateDate(new Date());
+			user.setModifyDate(user.getCreateDate());
+			user.setPassword(Encrypt.e(user.getPassword()));
+			User u = new User();
+			try {
+				BeanUtils.copyProperties(u, user);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+			try {
+				Serializable res = userService.save(u);
+				if(res != null) {
+					dataObject.setSuccess(true);
+					dataObject.setMsg("添加成功！");
+					dataObject.setObject(user);
+				} else {
+					dataObject.setMsg("添加失败！");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				dataObject.setMsg("添加失败！");
 			}
 			writeJson(dataObject);
 		}
